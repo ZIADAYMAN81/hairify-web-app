@@ -1,0 +1,233 @@
+:root {
+    --bg-dark: #0d0d0d;
+    --primary: #7c3aed;
+    --primary-light: #a855f7;
+    --text: #ffffff;
+    --panel-bg: rgba(255, 255, 255, 0.05);
+    --panel-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text);
+    overflow: hidden; /* Hide scrollbars during gravity phase */
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+#bg-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none; /* Let clicks pass through */
+}
+
+#ui-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none; /* Allow particles to be seen, but buttons will override this */
+}
+
+.physics-element {
+    position: absolute;
+    /* Initial state, overridden by JS during gravity phase */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Transition applied ONLY in Phase 2 */
+}
+
+/* Phase 2: Smooth transitions enabled */
+.phase-2-transition {
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Base styles for UI components */
+#logo {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: default;
+    user-select: none;
+}
+
+.button {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 100; /* Ensure buttons are above background and panels */
+    pointer-events: auto;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    transform: translateY(-2px);
+}
+
+.button.primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border: none;
+}
+
+.button.primary:hover {
+    box-shadow: 0 0 25px var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    opacity: 0; /* Hidden by default */
+    transform: scale(0.9);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.panel.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+#output-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.placeholder-text {
+    color: rgba(255,255,255,0.5);
+}
+
+/* Layout classes for Phase 2 (Targeted positioning) */
+.layout-logo {
+    top: 50px !important;
+    left: 50% !important;
+    transform: translateX(-50%) rotate(0deg) !important;
+}
+
+.layout-upload {
+    top: 150px !important;
+    left: calc(50% - 200px) !important;
+    transform: translateX(-50%) rotate(0deg) !important;
+}
+
+.layout-sample {
+    top: 150px !important;
+    left: 50% !important;
+    transform: translateX(-50%) rotate(0deg) !important;
+}
+
+.layout-process {
+    top: 150px !important;
+    left: calc(50% + 200px) !important;
+    transform: translateX(-50%) rotate(0deg) !important;
+}
+
+.layout-panel {
+    top: 230px !important;
+    left: 50% !important;
+    transform: translateX(-50%) rotate(0deg) !important;
+}
+
+/* Hidden class */
+.hidden {
+    display: none !important;
+}
+
+/* Loading Spinner */
+#spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255,255,255,0.2);
+    border-top: 4px solid var(--primary-light);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 20;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Mock Results */
+#result-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 0;
+    z-index: 10;
+}
+
+.success-text {
+    color: #4ade80;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.confidence-text {
+    color: var(--primary-light);
+    font-size: 0.9rem;
+}
+
+/* Simulated colored overlay on the image */
+.mock-hair-overlay {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    height: 40%;
+    background: rgba(168, 85, 247, 0.4); /* Purple tint */
+    border-radius: 50% 50% 0 0;
+    filter: blur(8px);
+    pointer-events: none;
+}

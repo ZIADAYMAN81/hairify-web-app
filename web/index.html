@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hairify - AI Hairstyle Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <div id="ui-container">
+        <!-- All elements are top-level for physics/layout sync -->
+        <h1 id="logo" class="physics-element" data-width="250" data-height="60">🪄 Hairify</h1>
+        
+        <label id="upload-btn" for="file-input" class="physics-element button" data-width="180" data-height="50">
+            📁 Upload
+        </label>
+        
+        <button id="sample-btn" class="physics-element button" data-width="180" data-height="50">
+            🎲 Example
+        </button>
+        
+        <button id="process-btn" class="physics-element button primary" data-width="180" data-height="50">
+            ⚡ Process
+        </button>
+
+        <input type="file" id="file-input" accept="image/*" style="display: none;">
+
+        <div id="output-area" class="physics-element panel" data-width="400" data-height="400">
+            <div id="output-content">
+                <div id="spinner" class="hidden"></div>
+                <div id="result-overlay" class="hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

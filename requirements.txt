@@ -1,0 +1,5 @@
+numpy>=1.21
+Pillow>=9.0
+Flask>=2.2
+flask-cors>=4.0   # optional: only needed when the UI is served from another origin
+pytest>=7.0       # tests

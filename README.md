@@ -1,5 +1,7 @@
 # Hairify Web App: Hairstyle Recommendation with a Physics-Driven UI
 
+[![tests](https://github.com/ZIADAYMAN81/hairify-web-app/actions/workflows/tests.yml/badge.svg)](https://github.com/ZIADAYMAN81/hairify-web-app/actions/workflows/tests.yml)
+
 > Companion web app to my graduation project [Hairify](https://github.com/ZIADAYMAN81/hairify), The British University in Egypt, 2026. Author: Ziad Ayman.
 
 A browser front-end built with **HTML, CSS and JavaScript** and a **Flask** API. Upload a photo; the back-end detects the face, classifies the current hair texture with a neural network written from scratch in NumPy, recommends a style for the detected face shape, and returns the photo with the new hairstyle overlaid.
@@ -42,3 +44,6 @@ python -m pytest -q tests    # 17 tests: face detection, geometry helpers, hair 
 
 ## Tech stack
 HTML5 · CSS3 · JavaScript (ES6, Fetch API) · Matter.js · Python · Flask · NumPy · Pillow · pytest
+
+## License
+MIT, see [LICENSE](LICENSE).
